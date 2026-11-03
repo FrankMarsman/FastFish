@@ -8,48 +8,52 @@ Detailed fish drawings, made with JavaScript. FrankFish builds on **[Fishdraw by
 
 Twenty fish, each morphing into a different shape. Click any animation to open it on its own.
 
-<table>
-<tr>
-  <td width="50%"><a href="samples/morph-01.gif"><img src="samples/morph-01.gif" alt="Fine scales · Plain: a fish morphing between two shapes" width="480"></a><br><sub>01 · Fine scales · Plain</sub></td>
-  <td width="50%"><a href="samples/morph-02.gif"><img src="samples/morph-02.gif" alt="Layered scales · Plain: a fish morphing between two shapes" width="480"></a><br><sub>02 · Layered scales · Plain</sub></td>
-</tr>
-<tr>
-  <td width="50%"><a href="samples/morph-03.gif"><img src="samples/morph-03.gif" alt="Crosshatch · Plain: a fish morphing between two shapes" width="480"></a><br><sub>03 · Crosshatch · Plain</sub></td>
-  <td width="50%"><a href="samples/morph-04.gif"><img src="samples/morph-04.gif" alt="Linear · Plain: a fish morphing between two shapes" width="480"></a><br><sub>04 · Linear · Plain</sub></td>
-</tr>
-<tr>
-  <td width="50%"><a href="samples/morph-05.gif"><img src="samples/morph-05.gif" alt="Fine scales · Spots: a fish morphing between two shapes" width="480"></a><br><sub>05 · Fine scales · Spots</sub></td>
-  <td width="50%"><a href="samples/morph-06.gif"><img src="samples/morph-06.gif" alt="Layered scales · Spots: a fish morphing between two shapes" width="480"></a><br><sub>06 · Layered scales · Spots</sub></td>
-</tr>
-<tr>
-  <td width="50%"><a href="samples/morph-07.gif"><img src="samples/morph-07.gif" alt="Crosshatch · Spots: a fish morphing between two shapes" width="480"></a><br><sub>07 · Crosshatch · Spots</sub></td>
-  <td width="50%"><a href="samples/morph-08.gif"><img src="samples/morph-08.gif" alt="Linear · Spots: a fish morphing between two shapes" width="480"></a><br><sub>08 · Linear · Spots</sub></td>
-</tr>
-<tr>
-  <td width="50%"><a href="samples/morph-09.gif"><img src="samples/morph-09.gif" alt="Fine scales · Mottled: a fish morphing between two shapes" width="480"></a><br><sub>09 · Fine scales · Mottled</sub></td>
-  <td width="50%"><a href="samples/morph-10.gif"><img src="samples/morph-10.gif" alt="Layered scales · Mottled: a fish morphing between two shapes" width="480"></a><br><sub>10 · Layered scales · Mottled</sub></td>
-</tr>
-<tr>
-  <td width="50%"><a href="samples/morph-11.gif"><img src="samples/morph-11.gif" alt="Crosshatch · Mottled: a fish morphing between two shapes" width="480"></a><br><sub>11 · Crosshatch · Mottled</sub></td>
-  <td width="50%"><a href="samples/morph-12.gif"><img src="samples/morph-12.gif" alt="Linear · Mottled: a fish morphing between two shapes" width="480"></a><br><sub>12 · Linear · Mottled</sub></td>
-</tr>
-<tr>
-  <td width="50%"><a href="samples/morph-13.gif"><img src="samples/morph-13.gif" alt="Fine scales · Stripes: a fish morphing between two shapes" width="480"></a><br><sub>13 · Fine scales · Stripes</sub></td>
-  <td width="50%"><a href="samples/morph-14.gif"><img src="samples/morph-14.gif" alt="Layered scales · Stripes: a fish morphing between two shapes" width="480"></a><br><sub>14 · Layered scales · Stripes</sub></td>
-</tr>
-<tr>
-  <td width="50%"><a href="samples/morph-15.gif"><img src="samples/morph-15.gif" alt="Crosshatch · Stripes: a fish morphing between two shapes" width="480"></a><br><sub>15 · Crosshatch · Stripes</sub></td>
-  <td width="50%"><a href="samples/morph-16.gif"><img src="samples/morph-16.gif" alt="Linear · Stripes: a fish morphing between two shapes" width="480"></a><br><sub>16 · Linear · Stripes</sub></td>
-</tr>
-<tr>
-  <td width="50%"><a href="samples/morph-17.gif"><img src="samples/morph-17.gif" alt="Fine scales · Speckles: a fish morphing between two shapes" width="480"></a><br><sub>17 · Fine scales · Speckles</sub></td>
-  <td width="50%"><a href="samples/morph-18.gif"><img src="samples/morph-18.gif" alt="Layered scales · Speckles: a fish morphing between two shapes" width="480"></a><br><sub>18 · Layered scales · Speckles</sub></td>
-</tr>
-<tr>
-  <td width="50%"><a href="samples/morph-19.gif"><img src="samples/morph-19.gif" alt="Crosshatch · Speckles: a fish morphing between two shapes" width="480"></a><br><sub>19 · Crosshatch · Speckles</sub></td>
-  <td width="50%"><a href="samples/morph-20.gif"><img src="samples/morph-20.gif" alt="Linear · Speckles: a fish morphing between two shapes" width="480"></a><br><sub>20 · Linear · Speckles</sub></td>
-</tr>
-</table>
+Within each group: fine scales, layered scales, crosshatch and linear.
+
+**Plain**
+
+<p>
+<a href="samples/morph-01.gif"><img src="samples/morph-01.gif" alt="01 · Fine scales · Plain: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-02.gif"><img src="samples/morph-02.gif" alt="02 · Layered scales · Plain: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-03.gif"><img src="samples/morph-03.gif" alt="03 · Crosshatch · Plain: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-04.gif"><img src="samples/morph-04.gif" alt="04 · Linear · Plain: a fish morphing between two shapes" width="48%"></a>
+</p>
+
+**Spots**
+
+<p>
+<a href="samples/morph-05.gif"><img src="samples/morph-05.gif" alt="05 · Fine scales · Spots: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-06.gif"><img src="samples/morph-06.gif" alt="06 · Layered scales · Spots: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-07.gif"><img src="samples/morph-07.gif" alt="07 · Crosshatch · Spots: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-08.gif"><img src="samples/morph-08.gif" alt="08 · Linear · Spots: a fish morphing between two shapes" width="48%"></a>
+</p>
+
+**Mottled**
+
+<p>
+<a href="samples/morph-09.gif"><img src="samples/morph-09.gif" alt="09 · Fine scales · Mottled: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-10.gif"><img src="samples/morph-10.gif" alt="10 · Layered scales · Mottled: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-11.gif"><img src="samples/morph-11.gif" alt="11 · Crosshatch · Mottled: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-12.gif"><img src="samples/morph-12.gif" alt="12 · Linear · Mottled: a fish morphing between two shapes" width="48%"></a>
+</p>
+
+**Stripes**
+
+<p>
+<a href="samples/morph-13.gif"><img src="samples/morph-13.gif" alt="13 · Fine scales · Stripes: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-14.gif"><img src="samples/morph-14.gif" alt="14 · Layered scales · Stripes: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-15.gif"><img src="samples/morph-15.gif" alt="15 · Crosshatch · Stripes: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-16.gif"><img src="samples/morph-16.gif" alt="16 · Linear · Stripes: a fish morphing between two shapes" width="48%"></a>
+</p>
+
+**Speckles**
+
+<p>
+<a href="samples/morph-17.gif"><img src="samples/morph-17.gif" alt="17 · Fine scales · Speckles: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-18.gif"><img src="samples/morph-18.gif" alt="18 · Layered scales · Speckles: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-19.gif"><img src="samples/morph-19.gif" alt="19 · Crosshatch · Speckles: a fish morphing between two shapes" width="48%"></a>
+<a href="samples/morph-20.gif"><img src="samples/morph-20.gif" alt="20 · Linear · Speckles: a fish morphing between two shapes" width="48%"></a>
+</p>
 
 Each loop uses 25 steps, with the drawing seed and categorical settings held fixed. The gallery covers all four scale styles and five body patterns. [GIF files and how to recreate them →](samples/README.md)
 
