@@ -1,0 +1,89 @@
+{
+  "description": "Real V3 compositions, rendered with the production worker at 1× resolution. Seed collection is deterministic. Controls are omitted; the full canvas is available to the fish.",
+  "samples": [
+    {
+      "file": "composition-500-500.png",
+      "width": 500,
+      "height": 375,
+      "count": 500,
+      "gap": 4,
+      "placed": 121,
+      "generated": 500,
+      "validation": {
+        "overlaps": 0,
+        "outside": 0,
+        "uncovered": 0,
+        "covered": 113373,
+        "area": 177628,
+        "generated": 500
+      },
+      "seconds": 26.9,
+      "sha256": "50f39a811351c968b106100efda47772047a1b27accd605142680d909d1eb481",
+      "bytes": 66061
+    },
+    {
+      "file": "composition-1000-1500.png",
+      "width": 1000,
+      "height": 750,
+      "count": 1500,
+      "gap": 4,
+      "placed": 403,
+      "generated": 1500,
+      "validation": {
+        "overlaps": 0,
+        "outside": 0,
+        "uncovered": 0,
+        "covered": 478845,
+        "area": 730128,
+        "generated": 1500
+      },
+      "seconds": 59.7,
+      "sha256": "6510c0e77e2fa31c1013ee01644cd84cbd6c5f55a93b49aa2eae696d4853d38d",
+      "bytes": 286437
+    },
+    {
+      "file": "composition-1500-3000.png",
+      "width": 1500,
+      "height": 1125,
+      "count": 3000,
+      "gap": 4,
+      "placed": 822,
+      "generated": 3000,
+      "validation": {
+        "overlaps": 0,
+        "outside": 0,
+        "uncovered": 0,
+        "covered": 1080478,
+        "area": 1657628,
+        "generated": 3000
+      },
+      "seconds": 106.9,
+      "sha256": "2cfcd2188574bd700e723b739a219f9dfb33ffc46b7926059e683b35433b2342",
+      "bytes": 654117
+    },
+    {
+      "file": "composition-2000-5000.png",
+      "width": 2000,
+      "height": 1500,
+      "count": 5000,
+      "gap": 4,
+      "placed": 1433,
+      "generated": 5000,
+      "validation": {
+        "overlaps": 0,
+        "outside": 0,
+        "uncovered": 0,
+        "covered": 1946984,
+        "area": 2960128,
+        "generated": 5000
+      },
+      "seconds": 167.5,
+      "sha256": "4fc5cf067d17f4c9616510fcb43f205c9ab77c81bf877be4e7f2810d9b8d952f",
+      "bytes": 1180926
+    }
+  ],
+  "generatorSHA256": "97e40f4e0d3aa602b808b8f786393ca9f8936748124d33c13a50edc4c17162be",
+  "workerSHA256": "72c92ec5fa4ea1779bf6780bca41047255cb28f9b8061f7df27b52fbf80fdc97",
+  "renderSourceCommit": "be9b4ce57f5ce6ea444ce15a45a67af19a77d767",
+  "timingNote": "Elapsed loop time includes new fish generation and geometry-cache reuse; these images are not a standalone performance benchmark."
+}

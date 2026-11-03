@@ -4,7 +4,10 @@ const library=[];let latest=0,running=false,queued=null;
 const pause=()=>new Promise(r=>setTimeout(r,0));
 function progress(job,text){if(latest===job.revision)postMessage({type:'progress',revision:job.revision,text});}
 function outlinePath(ctx,poly){if(!poly||poly.length<2)return;ctx.moveTo(poly[0][0],poly[0][1]);for(let i=1;i<poly.length;i++)ctx.lineTo(poly[i][0],poly[i][1]);ctx.closePath();}
-function linePath(ctx,lines){for(const line of lines){if(!line.length)continue;ctx.moveTo(...line[0]);for(let i=1;i<line.length;i++)ctx.lineTo(...line[i]);}}
+function linePath(ctx,lines){
+ if(lines.coordinates){const {coordinates:p,offsets}=lines;for(let i=0;i<offsets.length-1;i++){const start=offsets[i],end=offsets[i+1];if(start===end)continue;ctx.moveTo(p[start*2],p[start*2+1]);for(let j=start+1;j<end;j++)ctx.lineTo(p[j*2],p[j*2+1]);}return;}
+ for(const line of lines){if(!line.length)continue;ctx.moveTo(...line[0]);for(let i=1;i<line.length;i++)ctx.lineTo(...line[i]);}
+}
 function transform(ctx,fish,scale,angle,mirror,x,y){ctx.translate(x,y);ctx.rotate(angle*Math.PI/180);ctx.scale(mirror?-scale:scale,scale);ctx.translate(-fish.cx,-fish.cy);}
 function silhouetteImage(fish,scale){
  if(fish.silhouette && fish.silhouette.scale>=scale)return fish.silhouette;
@@ -29,7 +32,7 @@ function preciseMask(fish,m,gap){
  const rgba=ctx.getImageData(0,0,m.w,m.h).data,raw=new Uint8Array(m.w*m.h);for(let i=0;i<raw.length;i++)raw[i]=rgba[i*4+3]>0?1:0;
  const ink=maskBits(dilation(raw,m.w,m.h,Math.ceil(gap/2+1)),m.w,m.h);for(let i=0;i<m.bits.length;i++)m.bits[i]|=ink.bits[i];m.precise=true;return m;
 }
-function generateFish(index){for(let retry=0;retry<4;retry++){const seed='Frank Fish V3 / '+index+' / '+retry;jsr=str_to_seed(seed)||1;perlin=undefined;const params=generate_params();try{const fish=fishWithSilhouette(params,seed),b=fish.bounds;fish.cx=b[0]+b[2]/2;fish.cy=b[1]+b[3]/2;fish.index=index;fish.weight=.65+randomSequence(Math.imul(index+39171,2654435761))()*1.05;return fish;}catch(e){if(retry===3)throw e;}}}
+function generateFish(index){for(let retry=0;retry<4;retry++){const seed='Frank Fish V3 / '+index+' / '+retry;jsr=str_to_seed(seed)||1;perlin=undefined;const params=generate_params();try{const fish=fishWithSilhouette(params,seed),b=fish.bounds;fish.lines=packLines(fish.lines);fish.cx=b[0]+b[2]/2;fish.cy=b[1]+b[3]/2;fish.index=index;fish.weight=.65+randomSequence(Math.imul(index+39171,2654435761))()*1.05;return fish;}catch(e){if(retry===3)throw e;}}}
 async function pack(job){
  const {width,height,count,gap,top}=job,margin=8,W=Math.floor(width-margin*2),H=Math.floor(height-top-margin);
  if(W<30||H<30)throw Error('Make the window a little larger.');

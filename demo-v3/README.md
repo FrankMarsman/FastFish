@@ -4,7 +4,7 @@ A browser-sized composition of procedural fish, based on Fishdraw by Lingdong Hu
 
 [Open Frank Fish V3](https://frank-fish-v3.frankmarsman.chatgpt.site/)
 
-- **Fish count** sets a target from 50 to 2,000. The composition prioritizes filling the available area; the status reports how many fish fit.
+- **Fish count** sets a target from 50 to 5,000. The composition prioritizes filling the available area; the status reports how many fish fit.
 - **Gap** sets the minimum space between silhouettes, in screen pixels. Raster rounding adds a small safety margin.
 
 Fish have mixed sizes, upright left/right orientations and gentle tilts. They remain inside the viewport and below the controls. Generation and arrangement run in a worker. Settings apply after a 250 ms pause; old artwork remains visible until the replacement is ready. Gap changes and resizing reuse the fish already generated during this page visit.
@@ -42,3 +42,17 @@ node instrument.cjs ../FishDraw_Fast.js
 ```
 
 Original fish system: Copyright (c) 2021 Lingdong Huang. MIT license in `dist/vendor/LICENSE`. FrankFish adds generator optimizations and this composition interface.
+
+## Composition gallery
+
+The main repository README includes four full-resolution PNG compositions, from 500 × 375 to 2,000 × 1,500 pixels, with targets from 500 to 5,000 fish. Every image uses a 4 px gap and the same deterministic fish collection. The placed count can be lower than the target.
+
+To regenerate all four images in a single browser loop, run this server from this folder, then open the printed URL:
+
+```sh
+python3 tools/render-gallery.py
+```
+
+The page generates through the production worker, reuses the growing geometry cache, validates separation, containment and rendered-stroke coverage, and saves PNG files plus `manifest.json` into `media/gallery/`. Generated gallery files are overwritten when rerun. The images contain artwork only; controls are omitted and no top control margin is reserved.
+
+Drawing polylines are retained in packed Float64 coordinate buffers, preserving exact values while reducing memory use for collections of up to 5,000 fish.

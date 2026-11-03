@@ -95,10 +95,30 @@ Want to edit or run the site locally? See the [developer instructions](demo/READ
 
 V3 fills your browser window with a composition of fish in different shapes and sizes. It packs their silhouettes closely together, with fish facing left or right and gently tilted.
 
-- **Fish count** sets a target of 50–2,000 fish. The status shows how many fit.
+- **Fish count** sets a target of 50–5,000 fish. The status shows how many fit.
 - **Gap** adjusts the minimum space between fish, from 0–20 screen pixels.
 
 The composition prepares automatically when you change a slider or resize the window. Larger collections take longer to prepare; spacing changes reuse the fish already generated. Every fish stays inside the drawing area.
+
+### Composition gallery
+
+Four compositions generated in one loop, with increasing canvas sizes and fish-count targets. All use a **4 px gap**. Click an image to open the full-resolution PNG.
+
+<p>
+<a href="demo-v3/media/gallery/composition-500-500.png"><img src="demo-v3/media/gallery/composition-500-500.png" alt="500 × 375 composition: 121 fish placed from a 500-fish target" width="48%"></a>
+<a href="demo-v3/media/gallery/composition-1000-1500.png"><img src="demo-v3/media/gallery/composition-1000-1500.png" alt="1000 × 750 composition: 403 fish placed from a 1,500-fish target" width="48%"></a>
+<a href="demo-v3/media/gallery/composition-1500-3000.png"><img src="demo-v3/media/gallery/composition-1500-3000.png" alt="1500 × 1125 composition: 822 fish placed from a 3,000-fish target" width="48%"></a>
+<a href="demo-v3/media/gallery/composition-2000-5000.png"><img src="demo-v3/media/gallery/composition-2000-5000.png" alt="2000 × 1500 composition: 1,433 fish placed from a 5,000-fish target" width="48%"></a>
+</p>
+
+| Image size (px) | Target fish | Fish placed |
+| --- | ---: | ---: |
+| [500 × 375](demo-v3/media/gallery/composition-500-500.png) | 500 | 121 |
+| [1,000 × 750](demo-v3/media/gallery/composition-1000-1500.png) | 1,500 | 403 |
+| [1,500 × 1,125](demo-v3/media/gallery/composition-1500-3000.png) | 3,000 | 822 |
+| [2,000 × 1,500](demo-v3/media/gallery/composition-2000-5000.png) | 5,000 | 1,433 |
+
+These are artwork renders with the controls omitted. [Settings and validation results](demo-v3/media/gallery/manifest.json) · [Regenerate the gallery](demo-v3/README.md#composition-gallery)
 
 [Source and technical notes](demo-v3/README.md) · [Studio V2](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)
 
