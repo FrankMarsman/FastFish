@@ -1,69 +1,107 @@
 # FrankFish
 
-Fast, procedural fish drawings in JavaScript. Based on **[Fishdraw by Lingdong Huang](https://github.com/LingDong-/fishdraw)**, FrankFish keeps the intricate line art and compatible generator API while reducing the cost of the geometry calculations.
+Detailed fish drawings, made with JavaScript. FrankFish builds on **[Fishdraw by Lingdong Huang](https://github.com/LingDong-/fishdraw)**, keeping its intricate line art and compatible API while making generation much faster.
 
-**[Open Frank Fish →](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)** · [Download the standalone demo](https://raw.githubusercontent.com/FrankMarsman/FrankFish/main/demo/index.html) · [MIT license](LICENSE)
+**[Try Frank Fish in your browser →](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)** · [Download the demo](https://raw.githubusercontent.com/FrankMarsman/FrankFish/main/demo/index.html) · [Use the library](#use-the-library)
 
-`FishDraw_Fast.js` uses direct coordinate arguments, fixed-arity intersection keys and conservative clipping rejection tests to avoid unnecessary work. The original `fishdraw.js` is retained unchanged for comparison.
+## Animated samples
 
-## Drawing speed
+Twenty fish, each morphing into a different shape. Click any animation to open it on its own.
 
-Median time spent inside `fish(params)` — generation only:
+<table>
+<tr>
+  <td width="50%"><a href="samples/morph-01.gif"><img src="samples/morph-01.gif" alt="Fine scales · Plain: a fish morphing between two shapes" width="480"></a><br><sub>01 · Fine scales · Plain</sub></td>
+  <td width="50%"><a href="samples/morph-02.gif"><img src="samples/morph-02.gif" alt="Layered scales · Plain: a fish morphing between two shapes" width="480"></a><br><sub>02 · Layered scales · Plain</sub></td>
+</tr>
+<tr>
+  <td width="50%"><a href="samples/morph-03.gif"><img src="samples/morph-03.gif" alt="Crosshatch · Plain: a fish morphing between two shapes" width="480"></a><br><sub>03 · Crosshatch · Plain</sub></td>
+  <td width="50%"><a href="samples/morph-04.gif"><img src="samples/morph-04.gif" alt="Linear · Plain: a fish morphing between two shapes" width="480"></a><br><sub>04 · Linear · Plain</sub></td>
+</tr>
+<tr>
+  <td width="50%"><a href="samples/morph-05.gif"><img src="samples/morph-05.gif" alt="Fine scales · Spots: a fish morphing between two shapes" width="480"></a><br><sub>05 · Fine scales · Spots</sub></td>
+  <td width="50%"><a href="samples/morph-06.gif"><img src="samples/morph-06.gif" alt="Layered scales · Spots: a fish morphing between two shapes" width="480"></a><br><sub>06 · Layered scales · Spots</sub></td>
+</tr>
+<tr>
+  <td width="50%"><a href="samples/morph-07.gif"><img src="samples/morph-07.gif" alt="Crosshatch · Spots: a fish morphing between two shapes" width="480"></a><br><sub>07 · Crosshatch · Spots</sub></td>
+  <td width="50%"><a href="samples/morph-08.gif"><img src="samples/morph-08.gif" alt="Linear · Spots: a fish morphing between two shapes" width="480"></a><br><sub>08 · Linear · Spots</sub></td>
+</tr>
+<tr>
+  <td width="50%"><a href="samples/morph-09.gif"><img src="samples/morph-09.gif" alt="Fine scales · Mottled: a fish morphing between two shapes" width="480"></a><br><sub>09 · Fine scales · Mottled</sub></td>
+  <td width="50%"><a href="samples/morph-10.gif"><img src="samples/morph-10.gif" alt="Layered scales · Mottled: a fish morphing between two shapes" width="480"></a><br><sub>10 · Layered scales · Mottled</sub></td>
+</tr>
+<tr>
+  <td width="50%"><a href="samples/morph-11.gif"><img src="samples/morph-11.gif" alt="Crosshatch · Mottled: a fish morphing between two shapes" width="480"></a><br><sub>11 · Crosshatch · Mottled</sub></td>
+  <td width="50%"><a href="samples/morph-12.gif"><img src="samples/morph-12.gif" alt="Linear · Mottled: a fish morphing between two shapes" width="480"></a><br><sub>12 · Linear · Mottled</sub></td>
+</tr>
+<tr>
+  <td width="50%"><a href="samples/morph-13.gif"><img src="samples/morph-13.gif" alt="Fine scales · Stripes: a fish morphing between two shapes" width="480"></a><br><sub>13 · Fine scales · Stripes</sub></td>
+  <td width="50%"><a href="samples/morph-14.gif"><img src="samples/morph-14.gif" alt="Layered scales · Stripes: a fish morphing between two shapes" width="480"></a><br><sub>14 · Layered scales · Stripes</sub></td>
+</tr>
+<tr>
+  <td width="50%"><a href="samples/morph-15.gif"><img src="samples/morph-15.gif" alt="Crosshatch · Stripes: a fish morphing between two shapes" width="480"></a><br><sub>15 · Crosshatch · Stripes</sub></td>
+  <td width="50%"><a href="samples/morph-16.gif"><img src="samples/morph-16.gif" alt="Linear · Stripes: a fish morphing between two shapes" width="480"></a><br><sub>16 · Linear · Stripes</sub></td>
+</tr>
+<tr>
+  <td width="50%"><a href="samples/morph-17.gif"><img src="samples/morph-17.gif" alt="Fine scales · Speckles: a fish morphing between two shapes" width="480"></a><br><sub>17 · Fine scales · Speckles</sub></td>
+  <td width="50%"><a href="samples/morph-18.gif"><img src="samples/morph-18.gif" alt="Layered scales · Speckles: a fish morphing between two shapes" width="480"></a><br><sub>18 · Layered scales · Speckles</sub></td>
+</tr>
+<tr>
+  <td width="50%"><a href="samples/morph-19.gif"><img src="samples/morph-19.gif" alt="Crosshatch · Speckles: a fish morphing between two shapes" width="480"></a><br><sub>19 · Crosshatch · Speckles</sub></td>
+  <td width="50%"><a href="samples/morph-20.gif"><img src="samples/morph-20.gif" alt="Linear · Speckles: a fish morphing between two shapes" width="480"></a><br><sub>20 · Linear · Speckles</sub></td>
+</tr>
+</table>
 
-| Drawing style | Original Fishdraw | FrankFish Fast v2 | Speed-up |
+Each loop uses 25 steps, with the drawing seed and categorical settings held fixed. The gallery covers all four scale styles and five body patterns. [GIF files and how to recreate them →](samples/README.md)
+
+## Generation speed
+
+The Fast generator was **12–14× as fast** as the original in these four examples:
+
+| Style | Original Fishdraw | FrankFish Fast | Speed-up |
 | --- | ---: | ---: | ---: |
-| Layered scales (Studio defaults) | 531.9 ms | 37.3 ms | **14.3×** |
+| Layered scales | 531.9 ms | 37.3 ms | **14.3×** |
 | Fine scales | 1,399.2 ms | 106.7 ms | **13.1×** |
 | Crosshatch | 202.4 ms | 16.8 ms | **12.0×** |
 | Linear | 117.0 ms | 9.6 ms | **12.2×** |
 
-Measured on an Apple M1 with Node.js 24.1.0: three warm-up runs and seven measured runs per engine and case, alternating execution order. Both engines use the same seed and parameters; full-precision geometry matches in all four cases. Times exclude cleanup, SVG conversion, worker startup and browser display, and vary with hardware and parameters.
+Drawing calculation only, on an Apple M1 with Node.js 24.1.0. Medians of seven runs after three warm-ups, using the same seed and parameters with matching geometry. Results vary by fish and device. [Method and raw results](benchmarks/results/original-vs-fast-v2.md) · [Larger Fast v1/v2 benchmark](benchmarks/README.md)
 
-[Method and raw results](benchmarks/results/original-vs-fast-v2.md) · [Reproduce the comparison](benchmarks/compare-original.cjs) · [Broader 2,048-configuration Fast v1/v2 benchmark](benchmarks/README.md)
+## Make your own fish
 
-## Frank Fish
+[Open Frank Fish](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/) and start moving the sliders. Rotate a dial or click its labels to choose a style. **New fish** prepares a 25-step transition, then plays it smoothly. You can zoom in, check the drawing times and download your fish as an SVG.
 
-Explore 49 parameters with sliders, switches and four categorical dials showing all their options. Frank Fish always uses the Fast generator. Rotate the categorical dials by dragging their knobs, click any category label, or use the arrow keys. Total draw time and fish generation time appear in the upper-right corner of the fish display.
+[![The Frank Fish control panel](demo/media/studio-v2.jpg)](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)
 
-[![Frank Fish control panel](demo/media/studio-v2.jpg)](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)
-
-**New fish** prepares 25 intermediate frames, shows progress, then plays the cached transition. Toggle values stay fixed, controls unlock at the endpoint, and the drawing panel keeps its size. Zoom, fullscreen and SVG download are included.
-
-Two examples of the same interpolation process, rendered with the Fast generator:
-
-| Layered scales | Crosshatch |
-| --- | --- |
-| ![A layered-scale fish morphing between two configurations](demo/media/layered-morph.gif) | ![A crosshatched fish morphing between two configurations](demo/media/crosshatch-morph.gif) |
-
-These loops omit preparation and play the 25 steps forward and backward at 20 fps, with pauses at the endpoints. [Seeds, parameters and reproduction instructions](demo/README.md#animation-examples) are included.
-
-### Sliders in action
-
-Full-panel recordings of one slider changing at a time, with the seed and all other parameters held fixed:
+<details>
+<summary><strong>See the sliders in action</strong> — body length, body height and tail length</summary>
 
 **Body length**
 
-![Frank Fish interface with the body-length slider changing the fish](demo/media/body-length-slider.gif)
+![Changing body length in Frank Fish](demo/media/body-length-slider.gif)
 
 **Body height**
 
-![Frank Fish interface with the body-height slider changing the fish](demo/media/body-height-slider.gif)
+![Changing body height in Frank Fish](demo/media/body-height-slider.gif)
 
 **Tail length**
 
-![Frank Fish interface with the tail-length slider changing the fish](demo/media/tail-length-slider.gif)
+![Changing tail length in Frank Fish](demo/media/tail-length-slider.gif)
 
-Each clip contains real browser captures at all 20 slider positions, then reverses the frames. Playback is paced for clarity; these clips are not real-time benchmarks.
+These are real interface captures, paced for viewing. The gallery and slider GIFs are visual examples, not real-time speed measurements.
+
+</details>
+
+The [standalone demo](https://raw.githubusercontent.com/FrankMarsman/FrankFish/main/demo/index.html) is a single HTML file: save it and open it in a modern browser. It includes the Fast generator and needs no external runtime assets. [Editing and build instructions](demo/README.md)
 
 ## Use the library
 
-Clone this repository, then generate an SVG with Node.js:
+Clone this repository, then generate a fish with Node.js:
 
 ```sh
 node FishDraw_Fast.js --seed "Franky fishus" > fish.svg
 ```
 
-Or use the compatible JavaScript API:
+To choose the parameters yourself:
 
 ```js
 const fs = require('node:fs');
@@ -74,14 +112,8 @@ const lines = cleanup(reframe(fish(params), 20, ''));
 fs.writeFileSync('fish.svg', draw_svg(lines));
 ```
 
-`fish(params)` returns arrays of polylines. The original exports remain available, including `main(seed)` for a named fish and `generate_params()` for random parameters. The Studio worker demonstrates how to reset drawing randomness for repeatable comparisons.
+`fish(params)` returns polylines; `draw_svg()` turns them into an SVG. The original exports are preserved. The unchanged `fishdraw.js` is included for comparison; use **`FishDraw_Fast.js`** for the faster version.
 
-## Run or adapt the demo
+## Credits and license
 
-Save [demo/index.html](https://raw.githubusercontent.com/FrankMarsman/FrankFish/main/demo/index.html) and open it in a modern browser. It contains the styles, interface, the Fast generator and worker code, with no external runtime dependencies. It can also be served by any static web host.
-
-Edit `demo/src/`, then run `node demo/build.cjs` to rebuild the single file. See [demo instructions and checks](demo/README.md).
-
-## Credits
-
-Fish geometry, procedural drawing techniques and the original implementation are by **Lingdong Huang**. FrankFish adds performance optimizations and the interactive Studio. Distributed under the [MIT license](LICENSE); the original copyright and license are preserved, including inside the standalone demo.
+The fish drawing system and original artwork are by **Lingdong Huang**. FrankFish adds performance improvements, the interactive studio and these animated examples. Released under the [MIT license](LICENSE), with the original copyright and attribution preserved.
