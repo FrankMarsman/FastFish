@@ -89,6 +89,19 @@ The preview also shows **Fish generation** time and **Total draw time**, which i
 
 Want to edit or run the site locally? See the [developer instructions](demo/README.md).
 
+## A screen full of fish — V3
+
+**[Open Frank Fish V3 →](https://frank-fish-v3.frankmarsman.chatgpt.site/)**
+
+V3 fills your browser window with a composition of fish in different shapes and sizes. It packs their silhouettes closely together, with fish facing left or right and gently tilted.
+
+- **Fish count** sets a target of 50–2,000 fish. The status shows how many fit.
+- **Gap** adjusts the minimum space between fish, from 0–20 screen pixels.
+
+The composition prepares automatically when you change a slider or resize the window. Larger collections take longer to prepare; spacing changes reuse the fish already generated. Every fish stays inside the drawing area.
+
+[Source and technical notes](demo-v3/README.md) · [Studio V2](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)
+
 ## Use the library
 
 Clone this repository, then generate a fish with Node.js:
