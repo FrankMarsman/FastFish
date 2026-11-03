@@ -21,6 +21,14 @@ function variant(fish,scale,angle,mirror,gap){
  const rgba=ctx.getImageData(0,0,mw,mh).data,raw=new Uint8Array(mw*mh);for(let i=0;i<raw.length;i++)raw[i]=rgba[i*4+3]>0?1:0;
  return{...maskBits(dilation(raw,mw,mh,radius),mw,mh),scale,angle,mirror};
 }
+// Validate promising placements with actual display-scale strokes, not resampled silhouettes.
+function preciseMask(fish,m,gap){
+ if(m.precise)return m;
+ const canvas=new OffscreenCanvas(m.w,m.h),ctx=canvas.getContext('2d',{willReadFrequently:true});
+ transform(ctx,fish,m.scale,m.angle,m.mirror,m.w/2,m.h/2);ctx.lineWidth=Math.max(.7,.42/m.scale);ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();linePath(ctx,fish.lines);ctx.stroke();
+ const rgba=ctx.getImageData(0,0,m.w,m.h).data,raw=new Uint8Array(m.w*m.h);for(let i=0;i<raw.length;i++)raw[i]=rgba[i*4+3]>0?1:0;
+ const ink=maskBits(dilation(raw,m.w,m.h,Math.ceil(gap/2+1)),m.w,m.h);for(let i=0;i<m.bits.length;i++)m.bits[i]|=ink.bits[i];m.precise=true;return m;
+}
 function generateFish(index){for(let retry=0;retry<4;retry++){const seed='Frank Fish V3 / '+index+' / '+retry;jsr=str_to_seed(seed)||1;perlin=undefined;const params=generate_params();try{const fish=fishWithSilhouette(params,seed),b=fish.bounds;fish.cx=b[0]+b[2]/2;fish.cy=b[1]+b[3]/2;fish.index=index;fish.weight=.65+randomSequence(Math.imul(index+39171,2654435761))()*1.05;return fish;}catch(e){if(retry===3)throw e;}}}
 async function pack(job){
  const {width,height,count,gap,top}=job,margin=8,W=Math.floor(width-margin*2),H=Math.floor(height-top-margin);
@@ -38,13 +46,13 @@ async function pack(job){
     let x,y;
     if(placed.length&&attempt%3!==0){const p=placed[Math.floor(rng()*placed.length)],side=Math.floor(rng()*4);x=Math.round(p.x+(rng()-.5)*p.mask.w);y=Math.round(p.y+(rng()-.5)*p.mask.h);if(side===0)x=p.x+p.mask.w-Math.round(rng()*m.w*.22);if(side===1)x=p.x-m.w+Math.round(rng()*m.w*.22);if(side===2)y=p.y+p.mask.h-Math.round(rng()*m.h*.22);if(side===3)y=p.y-m.h+Math.round(rng()*m.h*.22);}
     else{x=Math.floor(rng()*(W-m.w+1));y=Math.floor(rng()*(H-m.h+1));}
-    if(maskCollision(board,m,x,y))continue;const score=coarseContact(board,m,x,y)+rng()*.25;if(score>best){best=score;found={fish,mask:m,x,y};}if(found&&attempt>=24)break;
+    if(maskCollision(board,m,x,y))continue;preciseMask(fish,m,gap);if(maskCollision(board,m,x,y))continue;const score=coarseContact(board,m,x,y)+rng()*.25;if(score>best){best=score;found={fish,mask:m,x,y};}if(found&&attempt>=24)break;
    }
   }
   if(found){addMask(board,found.mask,found.x,found.y);placed.push(found);}else unplaced.push(fish.index);
   if(n%5===0){progress(job,'Arranging '+(n+1)+' / '+count+' · '+placed.length+' placed');await pause();}
  }
- for(const index of unplaced){if(latest!==job.revision)return;const fish=library[index],scale=Math.sqrt(targetArea/(fish.bounds[2]*fish.bounds[3]*.48))*fish.weight*.48,m=variant(fish,scale,0,rng()>.5,gap);for(let j=0;j<96;j++){const x=Math.floor(rng()*(W-m.w+1)),y=Math.floor(rng()*(H-m.h+1));if(!maskCollision(board,m,x,y)){addMask(board,m,x,y);placed.push({fish,mask:m,x,y});break;}}await pause();}
+ for(const index of unplaced){if(latest!==job.revision)return;const fish=library[index],scale=Math.sqrt(targetArea/(fish.bounds[2]*fish.bounds[3]*.48))*fish.weight*.48,m=variant(fish,scale,0,rng()>.5,gap);for(let j=0;j<96;j++){const x=Math.floor(rng()*(W-m.w+1)),y=Math.floor(rng()*(H-m.h+1));if(!maskCollision(board,m,x,y)){preciseMask(fish,m,gap);if(maskCollision(board,m,x,y))continue;addMask(board,m,x,y);placed.push({fish,mask:m,x,y});break;}}await pause();}
  if(latest!==job.revision)return;progress(job,'Finishing '+placed.length+' fish…');
  const dpr=job.dpr||1,canvas=new OffscreenCanvas(Math.round(width*dpr),Math.round(height*dpr)),ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);ctx.fillStyle='#eff6f2';ctx.fillRect(0,0,width,height);ctx.strokeStyle='#244f53';ctx.lineCap='round';ctx.lineJoin='round';
  for(let n=0;n<placed.length;n++){const p=placed[n],m=p.mask;ctx.save();transform(ctx,p.fish,m.scale,m.angle,m.mirror,margin+p.x+m.w/2,top+p.y+m.h/2);ctx.lineWidth=Math.max(.7,.42/m.scale);ctx.beginPath();linePath(ctx,p.fish.lines);ctx.stroke();ctx.restore();if(n%25===0){await pause();if(latest!==job.revision)return;}}

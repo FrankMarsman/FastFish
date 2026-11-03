@@ -19,7 +19,7 @@ python3 -m http.server 8000 --directory dist
 
 The isolated generator preserves `fish(params)` and adds `fishWithSilhouette(params, seed)`, returning `{lines, parts, bounds}`. Each silhouette part has filled polygons and optional cutout polygons. The generator's large head clipping polygon is a cutout, never a filled silhouette. Visible strokes protect fine details. Silhouette collection uses the same generation pass and introduces no extra random calls.
 
-Raster silhouettes are prepared once per fish at sufficient resolution for its display scale, rotated/mirrored, and conservatively expanded by half the gap plus a pixel allowance. Coarse occupancy cells skip empty regions; row bitsets validate placement. Larger fish are tried first, followed by bounded smaller-size and gap-filling passes. Final line art is drawn from the original polylines at up to 2× display resolution. This is an approximate layout, not a guaranteed optimal packing.
+Raster silhouettes are prepared once per fish at sufficient resolution for its display scale, rotated/mirrored, and conservatively expanded by half the gap plus a pixel allowance. Coarse occupancy cells skip empty regions; row bitsets validate placement. Promising placements receive an additional mask rendered directly from the original line geometry at its final display scale, protecting fine strokes from resampling loss. Larger fish are tried first, followed by bounded smaller-size and gap-filling passes. Final line art is drawn from the original polylines at up to 2× display resolution. This is an approximate layout, not a guaranteed optimal packing.
 
 ## Verification
 
