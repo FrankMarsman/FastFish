@@ -1,8 +1,9 @@
 /*
  * FishDraw_Fast: compatible optimizations of Fishdraw by Lingdong Huang.
  * Original Copyright (c) 2021 Lingdong Huang. MIT License; see LICENSE.
- * Direct 2D coordinate arguments and fixed-arity intersection keys avoid
- * temporary arrays in hot loops. Geometry and random-number order are retained.
+ * Version 2 clipping candidate: prepared finite-segment edge bounds and lazy
+ * polygon-union keys. Rays retain exact full-edge tests. Geometry and the
+ * random-number order are retained; no fish-result caching is introduced.
  */
 
 let jsr = 0x5EED;
@@ -160,7 +161,7 @@ function poly_union(poly0,poly1,self_isect=false){
         let a = poly[i];
         let b = poly[i1];
         for (let j = 0; j < n; j++) {
-          let jd = pair_key(idx,j);
+          
           let j1 = (j + 1 + n) % n;
           if (i == j || i == j1 || i1 == j || i1 == j1) {
             continue;
@@ -184,7 +185,7 @@ function poly_union(poly0,poly1,self_isect=false){
             xx.other = j;
             xx.jump = false;
             p.isects.push(xx);
-            p.isects_map[jd] = xx;
+            p.isects_map[pair_key(idx,j)] = xx;
           }
         }
         
@@ -198,7 +199,7 @@ function poly_union(poly0,poly1,self_isect=false){
       let a = poly[i];
       let b = poly[i1];
       for (let j = 0; j < m; j++) {
-        let jd = pair_key(1-idx,j);
+        
         let j1 = (j + 1 + m) % m;
         let c = other[j];
         let d = other[j1];
@@ -221,7 +222,7 @@ function poly_union(poly0,poly1,self_isect=false){
           xx.other = j;
           xx.jump = true;
           p.isects.push(xx);
-          p.isects_map[jd] = xx;
+          p.isects_map[pair_key(1-idx,j)] = xx;
         }
       }
       p.isects.sort((a2, b2) => a2.t - b2.t);
@@ -336,10 +337,39 @@ function poly_union(poly0,poly1,self_isect=false){
   return ret;
 }
 
-function seg_isect_poly(x0,y0,x1,y1,poly,is_ray=false){
+// Build once per clipping batch. No data survives the current calculation.
+// Small batches use the original path to avoid setup costs.
+function prepare_clip_edges(poly){
+  const bounds = new Float64Array(poly.length*4);
+  let scale = 1;
+  for (let i = 0; i < poly.length; i++){
+    const a=poly[i],b=poly[(i+1)%poly.length];
+    if (!Number.isFinite(a[0]) || !Number.isFinite(a[1]) ||
+        !Number.isFinite(b[0]) || !Number.isFinite(b[1])) return null;
+    const k=i*4;
+    bounds[k]=Math.min(a[0],b[0]); bounds[k+1]=Math.min(a[1],b[1]);
+    bounds[k+2]=Math.max(a[0],b[0]); bounds[k+3]=Math.max(a[1],b[1]);
+    scale=Math.max(scale,Math.abs(a[0]),Math.abs(a[1]));
+  }
+  return {bounds,scale};
+}
+
+function seg_isect_poly(x0,y0,x1,y1,poly,is_ray=false,prepared=null){
   let n = poly.length;
   let isects = [];
+  // An infinite ray cannot be filtered with the finite segment's bounds.
+  const bounded = !is_ray && prepared && Number.isFinite(x0) &&
+    Number.isFinite(y0) && Number.isFinite(x1) && Number.isFinite(y1);
+  const xmin=bounded?Math.min(x0,x1):0,ymin=bounded?Math.min(y0,y1):0;
+  const xmax=bounded?Math.max(x0,x1):0,ymax=bounded?Math.max(y0,y1):0;
+  // Padding is conservative: it permits extra exact tests near boundaries.
+  const pad=bounded?Math.max(prepared.scale,Math.abs(x0),Math.abs(y0),Math.abs(x1),Math.abs(y1))*1e-10:0;
   for (let i = 0; i < poly.length; i++){
+    if (bounded){
+      const k=i*4,b=prepared.bounds;
+      if (xmax < b[k]-pad || ymax < b[k+1]-pad ||
+          xmin > b[k+2]+pad || ymin > b[k+3]+pad) continue;
+    }
     let a = poly[i];
     let b = poly[(i+1)%n];
     let xx = seg_isect(x0,y0,x1,y1,a[0],a[1],b[0],b[1],is_ray);
@@ -352,7 +382,7 @@ function seg_isect_poly(x0,y0,x1,y1,poly,is_ray=false){
 }
 
 
-function clip(polyline,polygon){
+function clip(polyline,polygon,prepared=null){
   if (!polyline.length){
     return {true:[],false:[]};
   }
@@ -368,7 +398,7 @@ function clip(polyline,polygon){
     out[io][out[io].length-1].push(a);
     if (!b) break;
 
-    let isects = seg_isect_poly(a[0],a[1],b[0],b[1],polygon,false);
+    let isects = seg_isect_poly(a[0],a[1],b[0],b[1],polygon,false,prepared);
     for (let j = 0; j < isects.length; j++){
       out[io][out[io].length-1].push(isects[j].xy);
       io = !io;
@@ -381,12 +411,14 @@ function clip(polyline,polygon){
 }
 
 function clip_multi(polylines,polygon,clipper_func=clip){
+  const prepared=clipper_func===clip && polylines.length>=4 && polygon.length>=8
+    ? prepare_clip_edges(polygon) : null;
   let out = {
     true:[],
     false:[],
   };
   for (let i = 0; i < polylines.length; i++){
-    let c = clipper_func(polylines[i],polygon);
+    let c = prepared ? clip(polylines[i],polygon,prepared) : clipper_func(polylines[i],polygon);
     out.true.push(...c.true);
     out.false.push(...c.false); 
   }
