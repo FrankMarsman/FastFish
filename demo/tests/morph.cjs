@@ -5,7 +5,7 @@ const target=t=>t.run('Object.fromEntries(controls.map(c=>[c.key,c.values.at(-1)
 const values=t=>t.run('JSON.stringify(controls.map(c=>{const n=nodes.get(c.key);return [n.input.value,n.input.attributes["aria-checked"],n.out.value];}))');
 function locked(t,expected){
  assert.equal(t.run('[...nodes.values()].every(n=>n.input.disabled&&n.buttons.every(b=>b.disabled))'),expected);
- for(const id of ['random','reset','seed','engine'])assert.equal(t.get(id).disabled,expected,id);
+ for(const id of ['random','reset','seed'])assert.equal(t.get(id).disabled,expected,id);
 }
 function prepare(t,w){t.get('random').onclick();t.reply(w,{params:target(t)});}
 function cacheAll(t,w){for(let step=1;step<=25;step++)t.reply(w,{result:{...t.result,d:'frame '+step}});}
@@ -13,7 +13,7 @@ function cacheAll(t,w){for(let step=1;step<=25;step++)t.reply(w,{result:{...t.re
  const {t,w}=ready();t.run('controls.filter(c=>c.toggle).forEach((c,i)=>params[c.key]=i%2);requestRender()');t.finish(w);
  const from=JSON.parse(t.run('JSON.stringify(params)')),frozen=values(t),source=t.run('current.d'),sourceSeed=t.run('seed');
  prepare(t,w);locked(t,true);assert.equal(t.get('morphProgress').hidden,false);assert.equal(t.get('morphBar').value,0);
- t.get('random').onclick();t.get('reset').onclick();t.run("change(controls[0],1);switchEngine('fast');requestRender()");
+ t.get('random').onclick();t.get('reset').onclick();t.run("change(controls[0],1);requestRender()");
  const proposed=target(t);for(const c of t.run('controls'))if(c.toggle)proposed[c.key]=from[c.key];
  for(let step=1;step<=25;step++){
   const message=t.last(w);assert.equal(message.seed,sourceSeed);assert.equal(t.run('morph.step'),step);

@@ -1,12 +1,14 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#b7babe"><meta name="description" content="A tactile metal control panel for Fishdraw. Shape a fish with sliders, dials and switches."><title>Fishdraw Studio V2</title><link rel="stylesheet" href="style.css"></head>
-<body><main class="console" aria-label="Fishdraw control panel">
- <div class="console-toolbar"><label for="engine">Generator</label><select id="engine"><option value="original" selected>FishDraw</option><option value="fast">Fast FishDraw</option></select></div>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#b7babe"><meta name="description" content="Frank Fish — fast procedural fish drawings. Shape a fish with sliders, rotating dials and switches."><title>Frank Fish</title><link rel="stylesheet" href="style.css"></head>
+<body><main class="console" aria-label="Frank Fish control panel">
  <aside class="bank left-bank" id="left"></aside>
  <section class="center">
   <div class="display-module">
    <div class="screen" id="screen">
-    <div class="screen-meta"><span><i class="live-dot"></i> LIVE SPECIMEN</span><span id="renderState" role="status">INITIALIZING</span></div>
+    <div class="screen-meta">
+     <div class="screen-heading"><h1><i class="live-dot"></i>Frank Fish</h1><span id="renderState" role="status">INITIALIZING</span></div>
+     <div class="screen-timing" aria-label="Drawing times" aria-describedby="timingHelp"><span>Total draw time: <strong id="drawTime">Generating…</strong></span><span>Fish generation: <strong id="generationTime">Generating…</strong></span><span id="drawSource" class="sr-only">Generated</span></div>
+    </div>
     <svg id="fish" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generated fish" preserveAspectRatio="xMidYMid meet"><path fill="none" stroke="currentColor" stroke-width=".7" stroke-linejoin="round" stroke-linecap="round"/></svg>
     <div class="morph-progress" id="morphProgress" hidden><label for="morphBar">Preparing animation <span id="morphCount" aria-live="polite">0/25</span></label><progress id="morphBar" max="25" value="0">Preparing animation</progress></div>
     <div class="screen-bottom"><span id="lineCount">—</span><div class="zoom-controls"><button id="zoomOut" aria-label="Zoom out">−</button><button id="fit">Fit</button><button id="zoomIn" aria-label="Zoom in">+</button></div></div>
@@ -17,11 +19,6 @@
   <div class="panel-foot"><span>49 PARAMETERS <span class="separator">/</span> DISCRETE CONTROL</span><a href="https://github.com/LingDong-/fishdraw" target="_blank" rel="noreferrer">FISHDRAW · LINGDONG HUANG ↗</a></div>
  </section>
  <aside class="bank right-bank" id="right"></aside>
- <details class="performance-panel module" id="performancePanel" open>
-  <summary>Performance</summary>
-  <div class="performance-body">
-   <div class="performance-reading" role="status"><span>Total draw time: <strong id="drawTime">Generating…</strong></span><span>Fish generation: <strong id="generationTime">Generating…</strong></span><span class="performance-source" id="drawSource">FishDraw · Uncached</span></div>
-   <p>Slider changes generate fresh drawings. New fish prepares cached animation frames first. Total includes a paint opportunity; cached totals measure display only. Fish generation shows the drawing calculation cost.</p>
-  </div>
- </details>
+ <p id="dialHelp" class="sr-only">Drag the knob around its center, click a category label, or use the arrow keys. Home selects the first category; End selects the last.</p>
+ <p id="timingHelp" class="sr-only">Total draw time includes scheduling and a browser paint opportunity. During cached morph playback it measures display only. Fish generation measures the drawing calculation.</p>
 </main><script src="controls.js"></script><script src="app.js"></script></body></html>

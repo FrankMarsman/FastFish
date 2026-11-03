@@ -4,7 +4,7 @@ const read=name=>fs.readFileSync(path.join(root,name),'utf8');
 const safeJSON=value=>JSON.stringify(value).replace(/</g,'\\u003c');
 function workerSources(){
  const worker=read('demo/src/fish-worker.js');
- return Object.fromEntries(Object.entries({original:'fishdraw.js',fast:'FishDraw_Fast.js'}).map(([name,file])=>[
+ return Object.fromEntries(Object.entries({fast:'FishDraw_Fast.js'}).map(([name,file])=>[
   name,'const loadedEngine='+JSON.stringify(name)+';\n'+read(file)+'\n'+worker
  ]));
 }

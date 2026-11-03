@@ -1,21 +1,20 @@
 const $=id=>document.getElementById(id);
-let params={},seed=$('seed').value,engine='original',revision=0,nextRequestId=0,pending=null;
+const engine='fast';
+let params={},seed=$('seed').value,revision=0,nextRequestId=0,pending=null;
 let paramsReady=false,initializationRandom=false,current=null,currentSeed=seed,view=null,zoom=1;
 let displayedRequest=null,drawFrame=null,currentParams=null,morph=null;
 const morphSteps=25;
 const dialKeys=new Set(['scale_type','pattern_type','tail_type','finlet_type']);
 const nodes=new Map(),workers=new Map();
-const engineNames={original:'FishDraw',fast:'Fast FishDraw'};
-$('engine').value=engine;
 function pendingMetrics(){
  cancelAnimationFrame(drawFrame);drawFrame=null;displayedRequest=null;
  $('drawTime').textContent='Generating…';$('generationTime').textContent='Generating…';
- $('drawSource').textContent=engineNames[engine]+' · Uncached';
+ $('drawSource').textContent='Generated';
 }
 function finishDraw(job,generationMs){
  cancelAnimationFrame(drawFrame);displayedRequest=job;
  $('drawTime').textContent='Measuring…';$('generationTime').textContent=generationMs.toFixed(1)+' ms';
- $('drawSource').textContent=engineNames[job.engine]+(job.cached?' · Cached animation':' · Uncached');
+ $('drawSource').textContent=job.cached?'Cached animation':'Generated';
  // Measure a paint opportunity after this completed drawing, not a newer input.
  drawFrame=requestAnimationFrame(()=>{
   if(displayedRequest!==job||job.revision!==revision)return;
@@ -34,11 +33,39 @@ function failDraw(message='GENERATION ERROR · TRY RESET'){
  }
  cancelAnimationFrame(drawFrame);drawFrame=null;displayedRequest=null;
  $('drawTime').textContent='Unavailable';$('generationTime').textContent='Unavailable';
- $('drawSource').textContent=engineNames[engine]+' · Uncached';
+ $('drawSource').textContent='Generated';
  $('renderState').textContent=message;$('export').disabled=true;
 }
 const nearest=(c,n)=>c.values.reduce((best,v,i)=>Math.abs(v-n)<Math.abs(c.values[best]-n)?i:best,0);
 const format=(c,i)=>c.options?c.options[i]:String(+c.values[i].toFixed(2));
+function wireDial(input,c){
+ let drag=null;
+ input.onpointerdown=e=>{
+  if(input.disabled||e.button!==0||e.isPrimary===false)return;
+  e.preventDefault();input.focus();input.setPointerCapture(e.pointerId);
+  drag={id:e.pointerId,x:e.clientX,y:e.clientY};input.classList.add('dragging');
+ };
+ input.onpointermove=e=>{
+  if(!drag||drag.id!==e.pointerId||input.disabled||Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<4)return;
+  const rect=input.getBoundingClientRect(),dx=e.clientX-rect.left-rect.width/2,dy=e.clientY-rect.top-rect.height/2;
+  if(Math.hypot(dx,dy)<8)return;
+  // Zero is the top label; increasing values run clockwise around the dial.
+  const angle=(Math.atan2(dx,-dy)+Math.PI*2)%(Math.PI*2);
+  change(c,Math.round(angle*c.values.length/(Math.PI*2))%c.values.length);
+ };
+ const stop=e=>{
+  if(!drag||drag.id!==e.pointerId)return;
+  drag=null;input.classList.remove('dragging');
+  if(input.hasPointerCapture(e.pointerId))input.releasePointerCapture(e.pointerId);
+ };
+ for(const event of ['pointerup','pointercancel','lostpointercapture'])input.addEventListener(event,stop);
+ input.onkeydown=e=>{
+  if(input.disabled)return;
+  const current=nearest(c,params[c.key]),count=c.values.length;
+  const keys={ArrowRight:(current+1)%count,ArrowUp:(current+1)%count,ArrowLeft:(current+count-1)%count,ArrowDown:(current+count-1)%count,Home:0,End:count-1};
+  if(Object.hasOwn(keys,e.key)){e.preventDefault();change(c,keys[e.key]);}
+ };
+}
 groups.forEach(([id,title])=>{
  const module=document.createElement('section');module.className='module';module.setAttribute('aria-label',title);
  const h=document.createElement('h2');h.textContent=title;const number=document.createElement('span');number.textContent=String(groups.findIndex(g=>g[0]===id)+1).padStart(2,'0');h.append(number);module.append(h);
@@ -51,10 +78,9 @@ groups.forEach(([id,title])=>{
   if(c.toggle){input=document.createElement('button');input.className='switch';input.setAttribute('role','switch');input.setAttribute('aria-label',title+': '+c.label);input.onclick=()=>change(c,params[c.key]===0?1:0);row.append(input);}
   else if(dialKeys.has(c.key)){
    const wrap=document.createElement('div');wrap.className='dial-wrap';
-   input=document.createElement('select');input.className='dial-select';input.setAttribute('aria-label',title+': '+c.label);
-   c.options.forEach((name,i)=>{const option=document.createElement('option');option.value=String(i);option.textContent=name;input.append(option);});
-   input.onchange=()=>change(c,+input.value);
-   knob=document.createElement('span');knob.className='dial-knob';knob.append(input);wrap.append(knob);
+   input=document.createElement('button');input.type='button';input.className='dial-knob';input.setAttribute('role','slider');input.setAttribute('aria-label',title+': '+c.label);
+   input.setAttribute('aria-valuemin','0');input.setAttribute('aria-valuemax',String(c.values.length-1));input.setAttribute('aria-describedby','dialHelp');
+   wireDial(input,c);knob=input;wrap.append(knob);
    c.options.forEach((name,i)=>{
     const optionButton=document.createElement('button');optionButton.className='dial-choice';optionButton.textContent=name;
     const angle=i*2*Math.PI/c.options.length;
@@ -75,12 +101,12 @@ groups.forEach(([id,title])=>{
  });
  $(['body','dorsal','pelvic'].includes(id)?'left':id==='head'?'right':'lower').append(module);
 });
-function sync(){controls.forEach(c=>{const n=nodes.get(c.key),i=nearest(c,params[c.key]);n.out.value=format(c,i);if(c.toggle)n.input.setAttribute('aria-checked',String(i===1));else{n.input.value=String(i);if(dialKeys.has(c.key)){n.knob.style.setProperty('--dial-angle',(i*360/c.values.length)+'deg');n.choices.forEach((button,index)=>button.setAttribute('aria-pressed',String(index===i)));}else{n.input.style.setProperty('--fill',i/(c.values.length-1)*100+'%');n.input.setAttribute('aria-valuetext',format(c,i));}}});}
+function sync(){controls.forEach(c=>{const n=nodes.get(c.key),i=nearest(c,params[c.key]);n.out.value=format(c,i);if(c.toggle)n.input.setAttribute('aria-checked',String(i===1));else{n.input.value=String(i);n.input.setAttribute('aria-valuetext',format(c,i));if(dialKeys.has(c.key)){n.input.setAttribute('aria-valuenow',String(i));n.knob.style.setProperty('--dial-angle',(i*360/c.values.length)+'deg');n.choices.forEach((button,index)=>button.setAttribute('aria-pressed',String(index===i)));}else{n.input.style.setProperty('--fill',i/(c.values.length-1)*100+'%');}}});}
 function enableControls(enabled){for(const n of nodes.values()){n.input.disabled=!enabled;for(const b of n.buttons)b.disabled=!enabled;}}
 function updateAvailability(){
  const locked=!!morph;enableControls(paramsReady&&!locked);
  $('random').disabled=locked||!paramsReady||!current;
- for(const id of ['reset','seed','engine'])$(id).disabled=locked;
+ for(const id of ['reset','seed'])$(id).disabled=locked;
  $('fish').setAttribute('aria-busy',String(locked));
 }
 function snapped(values){return Object.fromEntries(controls.map(c=>[c.key,c.values[nearest(c,values[c.key])]]));}
@@ -136,8 +162,8 @@ function newFish(){
 function invalidateWork(){
  $('morphProgress').hidden=true;
  revision++;pending=null;morph=null;cancelAnimationFrame(drawFrame);drawFrame=null;displayedRequest=null;
- // Retain idle engines for warmed comparisons; busy engines cannot be interrupted
- // inside their synchronous geometry calculation, so discard those workers.
+ // Reuse the idle Fast worker. A synchronous drawing already in progress
+ // cannot be interrupted, so discard its worker when cancelling that request.
  for(const [name,slot] of workers){if(slot.job){slot.worker.terminate();workers.delete(name);}}
  updateAvailability();
 }
@@ -215,13 +241,6 @@ function initialize(random=false,startedAt=performance.now()){
  $('export').disabled=true;$('renderState').textContent='INITIALIZING';
  pending={id:++nextRequestId,revision,engine,action:'params',seed,random,startedAt};pump();
 }
-function switchEngine(name){
- if(morph||!Object.hasOwn(engineNames,name)||name===engine)return;
- const startedAt=performance.now();invalidateWork();engine=name;
- if(!paramsReady){initialize(initializationRandom,startedAt);return;}
- pendingMetrics();requestRender(startedAt);
-}
-$('engine').addEventListener('change',()=>switchEngine($('engine').value));
 $('random').onclick=newFish;
 $('reset').onclick=()=>{if(!morph)initialize(false);};
 $('seed').addEventListener('change',()=>{
@@ -237,7 +256,7 @@ const pointers=new Map();let pinchDistance=0;
 $('fish').onpointerdown=e=>{pointers.set(e.pointerId,[e.clientX,e.clientY]);$('fish').setPointerCapture(e.pointerId);if(pointers.size===2){const p=[...pointers.values()];pinchDistance=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]);}};
 $('fish').onpointermove=e=>{if(!pointers.has(e.pointerId)||!current)return;const prev=pointers.get(e.pointerId);pointers.set(e.pointerId,[e.clientX,e.clientY]);if(pointers.size===2){const p=[...pointers.values()],d=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]);if(pinchDistance)zoomBy(d/pinchDistance);pinchDistance=d;}else if(zoom>1){const r=$('fish').getBoundingClientRect(),scale=Math.max(view[2]/(r.width-40),view[3]/(r.height-82));view[0]-=(e.clientX-prev[0])*scale;view[1]-=(e.clientY-prev[1])*scale;applyView();}};
 for(const event of ['pointerup','pointercancel','lostpointercapture'])$('fish').addEventListener(event,e=>{pointers.delete(e.pointerId);pinchDistance=0;});
-$('export').onclick=()=>{if(!current)return;const s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+current.box.join(' ')+'"><path fill="none" stroke="#24464d" stroke-width=".7" stroke-linejoin="round" stroke-linecap="round" d="'+current.d+'"/></svg>',url=URL.createObjectURL(new Blob([s],{type:'image/svg+xml'})),a=document.createElement('a');a.href=url;a.download='fishdraw-v2-'+currentSeed.replace(/[^a-z0-9]+/gi,'-')+'.svg';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+$('export').onclick=()=>{if(!current)return;const s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+current.box.join(' ')+'"><path fill="none" stroke="#24464d" stroke-width=".7" stroke-linejoin="round" stroke-linecap="round" d="'+current.d+'"/></svg>',url=URL.createObjectURL(new Blob([s],{type:'image/svg+xml'})),a=document.createElement('a');a.href=url;a.download='frank-fish-'+currentSeed.replace(/[^a-z0-9]+/gi,'-')+'.svg';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 $('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{$('renderState').textContent='FULLSCREEN UNAVAILABLE';}};
 window.addEventListener('pagehide',()=>{invalidateWork();for(const slot of workers.values())slot.worker.terminate();workers.clear();});
 initialize();
