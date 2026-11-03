@@ -74,7 +74,16 @@ Drawing calculation only, on an Apple M1 with Node.js 24.1.0. Medians of seven r
 
 ## Try the live demo
 
-[Open Frank Fish](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/) and start moving the sliders. Rotate a dial or click its labels to choose a style. **New fish** prepares a 25-step transition, then plays it smoothly. You can zoom in, check the drawing times and download your fish as an SVG.
+[Open Frank Fish](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/) and experiment with the controls:
+
+- **Sliders** adjust the fish’s proportions and details. **Dials** choose categories: drag to rotate or click a label. **Toggles** switch between two options.
+- **New fish ↗** picks new numerical settings, prepares 25 frames while the progress bar fills, then plays the morph. Your dial and toggle choices stay fixed; controls unlock when it finishes.
+- **Reset** restores the default parameters, keeping the current seed.
+- **Seed** changes the drawing’s random details. The same seed and settings reproduce the same fish.
+- **+ / − and Fit** zoom in, zoom out and bring the whole fish back into view. Drag the preview to pan when zoomed in.
+- **SVG ↓** downloads the current fish as a scalable vector image. **Fullscreen** expands the interface.
+
+The preview also shows **Fish generation** time and **Total draw time**, which includes the work needed to display the fish.
 
 [![The Frank Fish control panel](demo/media/studio-v2.jpg)](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)
 
