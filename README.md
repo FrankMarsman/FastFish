@@ -4,7 +4,7 @@ FrankFish builds on [Fishdraw](https://github.com/LingDong-/fishdraw) by **Lingd
 
 The purpose of this repository is to make fish generation faster, especially for interactive controls. Future work will investigate reusing unchanged geometry when a single parameter changes, reducing unnecessary calculations, and measuring generation time while preserving drawing quality and deterministic results.
 
-**Current status:** the original `fishdraw.js` remains unchanged. `FishDraw_Fast.js` provides a compatible optimized version using direct coordinate arguments in intersection calls and fixed-arity intersection keys. Drawing algorithms, exports and the random-number sequence are preserved.
+**Current status:** the original `fishdraw.js` remains unchanged. `FishDraw_Fast.js` is the v2 clipping version: it combines direct coordinate arguments and fixed-arity intersection keys with prepared edge bounds for finite clipping tests and lazy polygon-union keys. The public API and random-number sequence are preserved; all 2,048 benchmark configurations produce exactly the same geometry as Fast v1.
 
 ## Fast FishDraw
 
@@ -15,11 +15,11 @@ const {fish, generate_params} = require('./FishDraw_Fast.js');
 const polylines = fish(generate_params());
 ```
 
-The original and Fast engines can be compared with identical seeds and parameters in [Fishdraw Studio V2](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/). Both modes regenerate without a result cache. The Performance section separates the generation calculation from the total time to display. Results vary with parameters, runtime and warm-up; no fixed generation-time guarantee is implied.
+The original and Fast engines can be compared with identical seeds and parameters in [Fishdraw Studio V2](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/). The site currently serves the previously deployed Fast v1; repository updates do not deploy it automatically. Both site modes regenerate without a result cache. The Performance section separates the generation calculation from the total time to display. Results vary with parameters, runtime and warm-up; no fixed generation-time guarantee is implied.
 
 ## Performance benchmarks
 
-The [benchmark suite](benchmarks/README.md) covers 2,048 distinct configurations with repeated, seeded, uncached generation. The [v1 baseline report](benchmarks/results/fast-v1-baseline.md) includes latency percentiles, style breakdowns and complete JSON/CSV measurements. A frozen v1 source and exact-geometry checks support reproducible comparisons with subsequent clipping changes. Repository changes and website deployments are versioned separately.
+The [benchmark suite](benchmarks/README.md) covers 2,048 distinct configurations with repeated, seeded, uncached generation. The [results index](benchmarks/results/README.md) links the frozen [v1 baseline](benchmarks/results/fast-v1-baseline.md), [paired v1 / v2 comparison](benchmarks/results/fast-v2-clipping.md), and complete JSON/CSV measurements. In this run, v2 was 1.46× faster in aggregate, with median generation time changing from 47.69 to 34.97 ms and exact geometry in every case. Two cases crossed the preset regression threshold, so the strict zero-regression gate remains FAIL; v2 is adopted for the overall improvement. The result is specific to this corpus and runtime.
 
 ## Attribution and license
 
