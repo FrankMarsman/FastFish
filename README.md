@@ -2,7 +2,9 @@
 
 Detailed fish drawings, made with JavaScript. FrankFish builds on **[Fishdraw by Lingdong Huang](https://github.com/LingDong-/fishdraw)**, keeping its intricate line art and compatible API while making generation much faster.
 
-**[Try Frank Fish in your browser →](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)** · [Download the demo](https://raw.githubusercontent.com/FrankMarsman/FrankFish/main/demo/index.html) · [Use the library](#use-the-library)
+**[Open the live demo →](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)**
+
+Start drawing fish immediately in your browser. No download or installation needed.
 
 ## Animated samples
 
@@ -70,7 +72,7 @@ The Fast generator was **12–14× as fast** as the original in these four examp
 
 Drawing calculation only, on an Apple M1 with Node.js 24.1.0. Medians of seven runs after three warm-ups, using the same seed and parameters with matching geometry. Results vary by fish and device. [Method and raw results](benchmarks/results/original-vs-fast-v2.md) · [Larger Fast v1/v2 benchmark](benchmarks/README.md)
 
-## Make your own fish
+## Try the live demo
 
 [Open Frank Fish](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/) and start moving the sliders. Rotate a dial or click its labels to choose a style. **New fish** prepares a 25-step transition, then plays it smoothly. You can zoom in, check the drawing times and download your fish as an SVG.
 
@@ -95,7 +97,7 @@ These are real interface captures, paced for viewing. The gallery and slider GIF
 
 </details>
 
-The [standalone demo](https://raw.githubusercontent.com/FrankMarsman/FrankFish/main/demo/index.html) is a single HTML file: save it and open it in a modern browser. It includes the Fast generator and needs no external runtime assets. [Editing and build instructions](demo/README.md)
+Want to edit or run the site locally? See the [developer instructions](demo/README.md).
 
 ## Use the library
 

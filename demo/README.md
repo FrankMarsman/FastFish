@@ -1,6 +1,12 @@
 # Frank Fish demo
 
-[Open the public demo](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/) or download `index.html` using GitHub's **Download raw file** button. The generated HTML embeds the CSS, controller, the root Fast generator, worker code and MIT license. Nothing else is needed at runtime.
+**[Open the live demo →](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)**
+
+The public Frank Fish site is ready to use in your browser.
+
+## Run a local copy
+
+For offline use or development, download `index.html` using GitHub's **Download raw file** button. The generated HTML embeds the CSS, controller, the root Fast generator, worker code and MIT license. Nothing else is needed at runtime.
 
 Open the saved file in a modern browser. If a browser policy restricts local files, serve this directory:
 
@@ -32,7 +38,9 @@ No cache is used for ordinary slider changes. New fish temporarily retains all 2
 
 `media/layered-morph.gif` and `media/crosshatch-morph.gif` contain actual Fast generator output. `media/morphs.json` records the seed, both endpoint configurations and a shared camera box for every example. The same interpolation rule as the Studio is used, including integer rounding and fixed toggle values.
 
-To regenerate the README animations, install the optional renderer and have FFmpeg on your PATH:
+For the 20 animated samples in the main README, see the [gallery rendering instructions](../samples/README.md).
+
+To regenerate these two earlier examples, install the optional renderer and have FFmpeg on your PATH:
 
 ```sh
 npm install --no-save @resvg/resvg-js@2.6.2
