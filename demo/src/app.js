@@ -181,7 +181,7 @@ function workerFor(name){
    if(job.transition){
     if(morph!==job.transition)return;
     morph.target=snapped(data.params);
-    for(const c of controls)if(c.toggle)morph.target[c.key]=morph.from[c.key];
+    for(const c of controls)if(c.options)morph.target[c.key]=morph.from[c.key];
     queueMorphFrame(morph);
    }else{
     params=snapped(data.params);

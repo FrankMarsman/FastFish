@@ -10,17 +10,17 @@ function locked(t,expected){
 function prepare(t,w){t.get('random').onclick();t.reply(w,{params:target(t)});}
 function cacheAll(t,w){for(let step=1;step<=25;step++)t.reply(w,{result:{...t.result,d:'frame '+step}});}
 {
- const {t,w}=ready();t.run('controls.filter(c=>c.toggle).forEach((c,i)=>params[c.key]=i%2);requestRender()');t.finish(w);
+ const {t,w}=ready();t.run('controls.filter(c=>c.options).forEach((c,i)=>params[c.key]=i%c.values.length);requestRender()');t.finish(w);
  const from=JSON.parse(t.run('JSON.stringify(params)')),frozen=values(t),source=t.run('current.d'),sourceSeed=t.run('seed');
  prepare(t,w);locked(t,true);assert.equal(t.get('morphProgress').hidden,false);assert.equal(t.get('morphBar').value,0);
  t.get('random').onclick();t.get('reset').onclick();t.run("change(controls[0],1);requestRender()");
- const proposed=target(t);for(const c of t.run('controls'))if(c.toggle)proposed[c.key]=from[c.key];
+ const proposed=target(t);for(const c of t.run('controls'))if(c.options)proposed[c.key]=from[c.key];
  for(let step=1;step<=25;step++){
   const message=t.last(w);assert.equal(message.seed,sourceSeed);assert.equal(t.run('morph.step'),step);
   assert(Object.values(message.params).every(Number.isFinite));
   for(const c of t.run('controls')){
    if(c.integer||c.options)assert(Number.isInteger(message.params[c.key]));
-   if(c.toggle)assert.equal(message.params[c.key],from[c.key]);
+   if(c.options)assert.equal(message.params[c.key],from[c.key]);
   }
   if(step===1)assert(Math.abs(message.params.body_length-208.8)<1e-10);
   // Simulate widely varying generation times. No drawing changes during preparation.
@@ -39,7 +39,7 @@ function cacheAll(t,w){for(let step=1;step<=25;step++)t.reply(w,{result:{...t.re
  assert.equal(t.run('JSON.stringify(params)'),JSON.stringify(proposed));assert.equal(t.run('currentSeed'),sourceSeed);
  assert(!t.get('export').disabled);assert.match(t.get('drawSource').textContent,/Cached animation/);
  assert.match(t.get('drawTime').textContent,/ms$/);
- console.log('PASS cache all 25 frames before playback, progress counts, fixed playback cadence despite variable generation, no generation in playback, frozen toggles/controls, exact endpoint');
+ console.log('PASS cache all 25 frames before playback, progress counts, fixed playback cadence despite variable generation, no generation in playback, frozen categories/controls, exact endpoint');
 }
 for(const phase of ['parameters','frame'])for(const crash of [false,true]){
  const {t,w}=ready(),source=t.run('JSON.stringify(params)'),sourcePath=t.run('current.d');
