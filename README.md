@@ -1,3 +1,17 @@
+# FrankFish
+
+FrankFish builds on [Fishdraw](https://github.com/LingDong-/fishdraw) by **Lingdong Huang**, a procedural fish-drawing library written in JavaScript.
+
+The purpose of this repository is to make fish generation faster, especially for interactive controls. Future work will investigate reusing unchanged geometry when a single parameter changes, reducing unnecessary calculations, and measuring generation time while preserving drawing quality and deterministic results.
+
+**Current status:** this is an unchanged clone of Fishdraw, with this project introduction added. No algorithm changes or performance improvements have been made yet.
+
+## Attribution and license
+
+The original code is Copyright (c) 2021 Lingdong Huang and is distributed under the [MIT License](LICENSE). The original copyright and license notice are retained. FrankFish is an independent derivative project and is not presented as an official release by the original author.
+
+## Original Fishdraw documentation
+
 # fishdraw
 
 *procedurally generated fish drawings. [demo](https://fishdraw.glitch.me/)*
