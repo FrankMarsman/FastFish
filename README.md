@@ -4,7 +4,18 @@ FrankFish builds on [Fishdraw](https://github.com/LingDong-/fishdraw) by **Lingd
 
 The purpose of this repository is to make fish generation faster, especially for interactive controls. Future work will investigate reusing unchanged geometry when a single parameter changes, reducing unnecessary calculations, and measuring generation time while preserving drawing quality and deterministic results.
 
-**Current status:** this is an unchanged clone of Fishdraw, with this project introduction added. No algorithm changes or performance improvements have been made yet.
+**Current status:** the original `fishdraw.js` remains unchanged. `FishDraw_Fast.js` provides a compatible optimized version using direct coordinate arguments in intersection calls and fixed-arity intersection keys. Drawing algorithms, exports and the random-number sequence are preserved.
+
+## Fast FishDraw
+
+Use the same API with the optimized file:
+
+```js
+const {fish, generate_params} = require('./FishDraw_Fast.js');
+const polylines = fish(generate_params());
+```
+
+The original and Fast engines can be compared with identical seeds and parameters in [Fishdraw Studio V2](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/). Both modes regenerate without a result cache. The Performance section separates the generation calculation from the total time to display. Results vary with parameters, runtime and warm-up; no fixed generation-time guarantee is implied.
 
 ## Attribution and license
 
