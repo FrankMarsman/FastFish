@@ -78,25 +78,6 @@ Drawing calculation only, on an Apple M1 with Node.js 24.1.0. Medians of seven r
 
 [![The Frank Fish control panel](demo/media/studio-v2.jpg)](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)
 
-<details>
-<summary><strong>See the sliders in action</strong> — body length, body height and tail length</summary>
-
-**Body length**
-
-![Changing body length in Frank Fish](demo/media/body-length-slider.gif)
-
-**Body height**
-
-![Changing body height in Frank Fish](demo/media/body-height-slider.gif)
-
-**Tail length**
-
-![Changing tail length in Frank Fish](demo/media/tail-length-slider.gif)
-
-These are real interface captures, paced for viewing. The gallery and slider GIFs are visual examples, not real-time speed measurements.
-
-</details>
-
 Want to edit or run the site locally? See the [developer instructions](demo/README.md).
 
 ## Use the library

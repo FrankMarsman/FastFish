@@ -48,15 +48,3 @@ node demo/render-morphs.cjs
 ```
 
 Each animation has 25 forward steps and reuses those frames backward, at 20 fps with endpoint pauses. Preparation time is omitted. These are visual examples, not speed measurements. The optional media tools are not needed to build or run the demo.
-
-## Full-panel slider recordings
-
-The three `*-slider.gif` clips show body length, body height and tail length independently. Each was recorded from the actual Frank Fish interface, starting at Reset with seed `Franky fishus`. A mouse drag moves the selected slider through each of its 20 positions. Every screenshot is taken after generation and its timing callback complete; the full panel remains visible.
-
-`media/slider-captures.json` records the displayed values and timing readings. Playback runs at 12 fps with endpoint holds and reversed frames for a seamless loop, so it is not a real-time performance recording. The two earlier fish-only morph GIFs are unchanged.
-
-To encode a new set of captures with FFmpeg, save 20 full-page JPEG screenshots named `000.jpg` through `019.jpg` into each of `body-length/`, `body-height/` and `tail-length/`, alongside `capture.json`, then run:
-
-```sh
-node demo/encode-slider-clips.cjs /path/to/capture-folder
-```
