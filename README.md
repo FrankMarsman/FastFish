@@ -17,6 +17,10 @@ const polylines = fish(generate_params());
 
 The original and Fast engines can be compared with identical seeds and parameters in [Fishdraw Studio V2](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/). Both modes regenerate without a result cache. The Performance section separates the generation calculation from the total time to display. Results vary with parameters, runtime and warm-up; no fixed generation-time guarantee is implied.
 
+## Performance benchmarks
+
+The [benchmark suite](benchmarks/README.md) covers 2,048 distinct configurations with repeated, seeded, uncached generation. The [v1 baseline report](benchmarks/results/fast-v1-baseline.md) includes latency percentiles, style breakdowns and complete JSON/CSV measurements. A frozen v1 source and exact-geometry checks support reproducible comparisons with subsequent clipping changes. Repository changes and website deployments are versioned separately.
+
 ## Attribution and license
 
 The original code is Copyright (c) 2021 Lingdong Huang and is distributed under the [MIT License](LICENSE). The original copyright and license notice are retained. FrankFish is an independent derivative project and is not presented as an official release by the original author.
