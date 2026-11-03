@@ -63,11 +63,11 @@ This gate describes empirical evidence, not a mathematical guarantee that no inp
 
 ## Reports
 
-Start with `results/fast-v1-baseline.md`. Candidate comparisons are added under new prefixes so the baseline and rejected experiments remain inspectable. Raw JSON and CSV contain every case measurement and failure; no outlier timing is trimmed.
+Start with the [results index](results/README.md), the [v1 baseline](results/fast-v1-baseline.md), and the [paired v1 / v2 clipping comparison](results/fast-v2-clipping.md). Comparisons use new prefixes so the baseline and earlier experiments remain inspectable. Raw JSON and CSV contain every case measurement and failure; no outlier timing is trimmed.
 
-## Clipping candidate
+## V2 clipping implementation
 
-`candidates/FishDraw_Fast.v2-clipping.js` is the separately retained v2 candidate. It prepares polygon-edge bounds once per sufficiently large clipping batch and rejects finite-segment candidates whose boxes cannot overlap. Infinite-ray tests and the exact intersection calculation remain unchanged. Conservative padding permits extra tests near boundaries. Non-finite inputs and small batches use the exact path. Polygon-union keys are constructed only when an intersection is found.
+`candidates/FishDraw_Fast.v2-clipping.js` is the separately retained tested v2 source, byte-identical to the current root `FishDraw_Fast.js`. It prepares polygon-edge bounds once per sufficiently large clipping batch and rejects finite-segment candidates whose boxes cannot overlap. Infinite-ray tests and the exact intersection calculation remain unchanged. Conservative padding permits extra tests near boundaries. Non-finite inputs and small batches use the exact path. Polygon-union keys are constructed only when an intersection is found.
 
 Run the additional geometry checks with:
 
@@ -75,4 +75,4 @@ Run the additional geometry checks with:
 node benchmarks/clipping-tests.cjs
 ```
 
-These checks exercise finite segments, infinite rays, reversed/closed polygons, touching edges, repeated points, very small/large coordinates, degenerate inputs, custom clipping predicates and polygon unions. The full benchmark adds exact drawing-geometry comparisons across the 2,048 configurations. See the versioned comparison report for the adoption decision; an experimental candidate is not automatically the default generator.
+These checks exercise finite segments, infinite rays, reversed/closed polygons, touching edges, repeated points, very small/large coordinates, degenerate inputs, custom clipping predicates and polygon unions. The full benchmark adds exact drawing-geometry comparisons across the 2,048 configurations. The [results index](results/README.md) records adoption based on aggregate improvement and exact geometry. The stricter zero-regression gate remains FAIL in the unchanged comparison report; adoption does not assert that every input is faster.
