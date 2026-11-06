@@ -9,7 +9,7 @@ class Handler(SimpleHTTPRequestHandler):
  def __init__(self,*a,**kw):super().__init__(*a,directory=str(root),**kw)
  def do_POST(self):
   name=self.path.removeprefix('/save/')
-  if not self.path.startswith('/save/') or not (re.fullmatch(r'composition-\d+-\d+\.png',name) or name=='manifest.json'):self.send_error(400);return
+  if not self.path.startswith('/save/') or not (re.fullmatch(r'(?:composition|preview)-\d+-\d+\.png',name) or name=='manifest.json'):self.send_error(400);return
   size=int(self.headers.get('Content-Length','0'))
   if not 0<size<30_000_000:self.send_error(400);return
   data=self.rfile.read(size)

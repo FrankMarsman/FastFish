@@ -102,21 +102,21 @@ The composition prepares automatically when you change a slider or resize the wi
 
 ### Composition gallery
 
-Four compositions generated in one loop, with increasing canvas sizes and fish-count targets. All use a **4 px gap**. Click an image to open the full-resolution PNG.
+Four regenerated compositions, from **1,500 × 1,125** to **6,000 × 4,500 pixels**, with increasing fish-count targets and a **4 px gap**. These replace the earlier gallery images at three times their original width and height. Click a preview to open the full-resolution PNG.
 
 <p>
-<a href="demo-v3/media/gallery/composition-500-500.png"><img src="demo-v3/media/gallery/composition-500-500.png" alt="500 × 375 composition: 121 fish placed from a 500-fish target" width="48%"></a>
-<a href="demo-v3/media/gallery/composition-1000-1500.png"><img src="demo-v3/media/gallery/composition-1000-1500.png" alt="1000 × 750 composition: 403 fish placed from a 1,500-fish target" width="48%"></a>
-<a href="demo-v3/media/gallery/composition-1500-3000.png"><img src="demo-v3/media/gallery/composition-1500-3000.png" alt="1500 × 1125 composition: 822 fish placed from a 3,000-fish target" width="48%"></a>
-<a href="demo-v3/media/gallery/composition-2000-5000.png"><img src="demo-v3/media/gallery/composition-2000-5000.png" alt="2000 × 1500 composition: 1,433 fish placed from a 5,000-fish target" width="48%"></a>
+<a href="demo-v3/media/gallery/composition-1500-500.png"><img src="demo-v3/media/gallery/preview-1500-500.png" alt="1,500 × 1,125 composition: 221 fish placed from a 500-fish target" width="48%"></a>
+<a href="demo-v3/media/gallery/composition-3000-1500.png"><img src="demo-v3/media/gallery/preview-3000-1500.png" alt="3,000 × 2,250 composition: 729 fish placed from a 1,500-fish target" width="48%"></a>
+<a href="demo-v3/media/gallery/composition-4500-3000.png"><img src="demo-v3/media/gallery/preview-4500-3000.png" alt="4,500 × 3,375 composition: 1,410 fish placed from a 3,000-fish target" width="48%"></a>
+<a href="demo-v3/media/gallery/composition-6000-5000.png"><img src="demo-v3/media/gallery/preview-6000-5000.png" alt="6,000 × 4,500 composition: 2,400 fish placed from a 5,000-fish target" width="48%"></a>
 </p>
 
 | Image size (px) | Target fish | Fish placed |
 | --- | ---: | ---: |
-| [500 × 375](demo-v3/media/gallery/composition-500-500.png) | 500 | 121 |
-| [1,000 × 750](demo-v3/media/gallery/composition-1000-1500.png) | 1,500 | 403 |
-| [1,500 × 1,125](demo-v3/media/gallery/composition-1500-3000.png) | 3,000 | 822 |
-| [2,000 × 1,500](demo-v3/media/gallery/composition-2000-5000.png) | 5,000 | 1,433 |
+| [1,500 × 1,125](demo-v3/media/gallery/composition-1500-500.png) | 500 | 221 |
+| [3,000 × 2,250](demo-v3/media/gallery/composition-3000-1500.png) | 1,500 | 729 |
+| [4,500 × 3,375](demo-v3/media/gallery/composition-4500-3000.png) | 3,000 | 1,410 |
+| [6,000 × 4,500](demo-v3/media/gallery/composition-6000-5000.png) | 5,000 | 2,400 |
 
 These are artwork renders with the controls omitted. [Settings and validation results](demo-v3/media/gallery/manifest.json) · [Regenerate the gallery](demo-v3/README.md#composition-gallery)
 

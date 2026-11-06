@@ -45,7 +45,7 @@ Original fish system: Copyright (c) 2021 Lingdong Huang. MIT license in `dist/ve
 
 ## Composition gallery
 
-The main repository README includes four full-resolution PNG compositions, from 500 × 375 to 2,000 × 1,500 pixels, with targets from 500 to 5,000 fish. Every image uses a 4 px gap and the same deterministic fish collection. The placed count can be lower than the target.
+The main repository README includes four full-resolution PNG compositions, from 1,500 × 1,125 to 6,000 × 4,500 pixels, with targets from 500 to 5,000 fish. Every image uses a 4 px gap and the same deterministic fish collection. The placed count can be lower than the target.
 
 To regenerate all four images in a single browser loop, run this server from this folder, then open the printed URL:
 
@@ -53,6 +53,6 @@ To regenerate all four images in a single browser loop, run this server from thi
 python3 tools/render-gallery.py
 ```
 
-The page generates through the production worker, reuses the growing geometry cache, validates separation, containment and rendered-stroke coverage, and saves PNG files plus `manifest.json` into `media/gallery/`. Generated gallery files are overwritten when rerun. The images contain artwork only; controls are omitted and no top control margin is reserved.
+The page generates through the production worker, reuses the growing geometry cache, validates separation, containment and rendered-stroke coverage, and saves full-resolution PNG files, 600 px previews and `manifest.json` into `media/gallery/`. Generated gallery files are overwritten when rerun. The images contain artwork only; controls are omitted and no top control margin is reserved.
 
 Drawing polylines are retained in packed Float64 coordinate buffers, preserving exact values while reducing memory use for collections of up to 5,000 fish.
