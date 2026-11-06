@@ -29,4 +29,4 @@ The saved gate has not been changed to make this an all-input speed claim. This 
 
 The root engine is byte-identical to `candidates/FishDraw_Fast.v2-clipping.js` (Git blob `214ead3b551ec7c23116e06080d9dcce0da3c775`). It adds prepared edge bounds for finite clipping tests and delays polygon-union key construction until intersections exist. Exact intersection calculations, infinite-ray tests and random-number order are preserved.
 
-Website deployments are versioned separately. This benchmark release updates the repository; Fishdraw Studio V2 continues to serve its previously deployed Fast v1 copy.
+Website deployments are versioned separately. Benchmark changes do not automatically update the hosted demos; see the [Studio build instructions](../../demo/README.md).

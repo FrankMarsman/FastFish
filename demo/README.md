@@ -1,8 +1,8 @@
-# Frank Fish demo
+# FastFish demo
 
 **[Open the live demo →](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)**
 
-The public Frank Fish site is ready to use in your browser.
+The public FastFish site is ready to use in your browser.
 
 ## Run a local copy
 

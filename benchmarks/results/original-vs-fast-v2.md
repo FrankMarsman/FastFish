@@ -1,4 +1,4 @@
-# Original Fishdraw vs FrankFish Fast v2
+# Original Fishdraw vs FastFish v2
 
 This comparison measures **`fish(params)` only**, using the unchanged root `fishdraw.js` and the current root `FishDraw_Fast.js` with clipping optimizations. It does not compare Fast v1 against v2; that larger experiment is documented separately in the benchmark folder.
 

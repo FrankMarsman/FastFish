@@ -1,6 +1,6 @@
-# FrankFish
+# FastFish
 
-Detailed fish drawings, made with JavaScript. FrankFish builds on **[Fishdraw by Lingdong Huang](https://github.com/LingDong-/fishdraw)**, keeping its intricate line art and compatible API while making generation much faster.
+Detailed fish drawings, made with JavaScript. FastFish builds on **[Fishdraw by Lingdong Huang](https://github.com/LingDong-/fishdraw)**, keeping its intricate line art and compatible API while making generation much faster.
 
 **[Open the live demo →](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)**
 
@@ -63,7 +63,7 @@ Each loop uses 25 steps, with the drawing seed and categorical settings held fix
 
 The Fast generator was **12–14× as fast** as the original in these four examples:
 
-| Style | Original Fishdraw | FrankFish Fast | Speed-up |
+| Style | Original Fishdraw | FastFish | Speed-up |
 | --- | ---: | ---: | ---: |
 | Layered scales | 531.9 ms | 37.3 ms | **14.3×** |
 | Fine scales | 1,399.2 ms | 106.7 ms | **13.1×** |
@@ -74,7 +74,7 @@ Drawing calculation only, on an Apple M1 with Node.js 24.1.0. Medians of seven r
 
 ## Try the live demo
 
-[Open Frank Fish](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/) and experiment with the controls:
+[Open FastFish](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/) and experiment with the controls:
 
 - **Sliders** adjust the fish’s proportions and details. **Dials** choose categories: drag to rotate or click a label. **Toggles** switch between two options.
 - **New fish ↗** picks new numerical settings, prepares 25 frames while the progress bar fills, then plays the morph. Your dial and toggle choices stay fixed; controls unlock when it finishes.
@@ -85,13 +85,13 @@ Drawing calculation only, on an Apple M1 with Node.js 24.1.0. Medians of seven r
 
 The preview also shows **Fish generation** time and **Total draw time**, which includes the work needed to display the fish.
 
-[![The Frank Fish control panel](demo/media/studio-v2.jpg)](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)
+[![The FastFish control panel](demo/media/studio-v2.jpg)](https://franky-fishdraw-studio-v2.frankmarsman.chatgpt.site/)
 
 Want to edit or run the site locally? See the [developer instructions](demo/README.md).
 
 ## A screen full of fish — V3
 
-**[Open Frank Fish V3 →](https://frank-fish-v3.frankmarsman.chatgpt.site/)**
+**[Open FastFish V3 →](https://frank-fish-v3.frankmarsman.chatgpt.site/)**
 
 V3 fills your browser window with a composition of fish in different shapes and sizes. It packs their silhouettes closely together, with fish facing left or right and gently tilted.
 
@@ -127,6 +127,8 @@ These are artwork renders with the controls omitted. [Settings and validation re
 Clone this repository, then generate a fish with Node.js:
 
 ```sh
+git clone https://github.com/FrankMarsman/FastFish.git
+cd FastFish
 node FishDraw_Fast.js --seed "Franky fishus" > fish.svg
 ```
 
@@ -143,6 +145,8 @@ fs.writeFileSync('fish.svg', draw_svg(lines));
 
 `fish(params)` returns polylines; `draw_svg()` turns them into an SVG. The original exports are preserved. The unchanged `fishdraw.js` is included for comparison; use **`FishDraw_Fast.js`** for the faster version.
 
+For an existing checkout, update the remote with `git remote set-url origin https://github.com/FrankMarsman/FastFish.git`.
+
 ## Credits and license
 
-The fish drawing system and original artwork are by **Lingdong Huang**. FrankFish adds performance improvements, the interactive studio and these animated examples. Released under the [MIT license](LICENSE), with the original copyright and attribution preserved.
+The fish drawing system and original artwork are by **Lingdong Huang**. FastFish adds performance improvements, the interactive studio and these animated examples. Released under the [MIT license](LICENSE), with the original copyright and attribution preserved.

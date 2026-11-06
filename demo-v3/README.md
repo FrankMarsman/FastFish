@@ -1,8 +1,8 @@
-# Frank Fish V3
+# FastFish V3
 
-A browser-sized composition of procedural fish, based on Fishdraw by Lingdong Huang and the FrankFish Fast generator. This is a separate experiment from Studio V2.
+A browser-sized composition of procedural fish, based on Fishdraw by Lingdong Huang and the FastFish generator. This is a separate experiment from Studio V2.
 
-[Open Frank Fish V3](https://frank-fish-v3.frankmarsman.chatgpt.site/)
+[Open FastFish V3](https://frank-fish-v3.frankmarsman.chatgpt.site/)
 
 - **Fish count** sets a target from 50 to 5,000. The composition prioritizes filling the available area; the status reports how many fish fit.
 - **Gap** sets the minimum space between silhouettes, in screen pixels. Raster rounding adds a small safety margin.
@@ -41,7 +41,7 @@ To rebuild the instrumented V3 generator from the unchanged root Fast library:
 node instrument.cjs ../FishDraw_Fast.js
 ```
 
-Original fish system: Copyright (c) 2021 Lingdong Huang. MIT license in `dist/vendor/LICENSE`. FrankFish adds generator optimizations and this composition interface.
+Original fish system: Copyright (c) 2021 Lingdong Huang. MIT license in `dist/vendor/LICENSE`. FastFish adds generator optimizations and this composition interface.
 
 ## Composition gallery
 
